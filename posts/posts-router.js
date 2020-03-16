@@ -38,6 +38,23 @@ router.get('/:id', (req,res)=>{
         });
 });
 
+router.get('/:id/comments', (req, res)=>{
+    Posts.findPostComments(req.params.id)
+        .then(comments=>{
+            if(comments){
+                res.status(200).json(comments)
+            }
+            else{
+                res
+                  .status(404)
+                  .json({
+                    message: "The post with the specified ID does not exist."
+                  });
+            }
+        })
+})
+
+
 router.post('/', (req,res)=>{
     const postContent=req.body;
     if(postContent.title&&postContent.contents){
